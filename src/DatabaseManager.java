@@ -46,6 +46,7 @@ public class DatabaseManager {
     private static final ArrayList<String> SERVING_CATEGORY_TYPES = new ArrayList<>(Arrays.asList(
             "int", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit"));
     private static final int NUM_CATEGORIES = 15;
+    private static final String URL = "jdbc:sqlite:C:/sqlite/db/test.db";
 
     private ArrayList<ResourceData> allResourceData = new ArrayList<>();
     private ArrayList<CityData> allCityData = new ArrayList<>();
@@ -59,22 +60,32 @@ public class DatabaseManager {
      * This method creates the database and tables for the project
      * It creates tables for resource information, language, city, resource type and serving
      */
-    public void createDatabaseAndTables() {
+    public void createDatabaseAndTables() throws ClassNotFoundException {
+        String fileName = "";
+
+        Class.forName("org.sqlite.JDBC");
+        try (Connection conn = DriverManager.getConnection(URL)) {
+            if (conn != null){
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("The Driver name is  " + meta.getDriverName());
+                System.out.println("A New Database has been created");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+/*
         //create database
-        try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:" + PORT_NUMBER + "/?serverTimezone=UTC",
-                "root", "root"); // MySQL
+        try(Connection conn = DriverManager.getConnection(url); // MySQL
             Statement stmt = conn.createStatement();
         ) {
             String sql = "create database if not exists " + DATABASE_NAME;
             stmt.execute(sql);
         } catch(SQLException ex) {
             ex.printStackTrace();
-        }
+        }*/
         //create table
         try (
-                Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:" + PORT_NUMBER + "/" + DATABASE_NAME+
-                                "?user=root&password=root&serverTimezone=UTC"); // MySQL
+                Connection conn = DriverManager.getConnection(URL); // MySQL
                 Statement stmt = conn.createStatement();
         ) {
             //TODO remove this line
@@ -356,14 +367,12 @@ public class DatabaseManager {
             return;
         }
         try (
-                Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:" + PORT_NUMBER + "/" + DATABASE_NAME+ "?user=root&password=root&serverTimezone=UTC"); // MySQL
+                Connection conn = DriverManager.getConnection(URL); // MySQL
                 Statement stmt = conn.createStatement();
         ) {
             //TODO before clearing out the table, copy it over to a backup
 
             //Clear the table so things aren't inputted twice
-            stmt.execute("TRUNCATE TABLE " + RESOURCE_TABLE_NAME);
             //Add every processed row to the table
             for(int i = 0; i < allResourceData.size(); i++){
                 ResourceData thisEntry = allResourceData.get(i);
@@ -371,7 +380,6 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
-            stmt.execute("TRUNCATE TABLE " + CITY_TABLE_NAME);
             //Add every processed row to the table
             for(int i = 0; i < allCityData.size(); i++){
                 CityData thisEntry = allCityData.get(i);
@@ -379,7 +387,6 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
-            stmt.execute("TRUNCATE TABLE " + TYPE_TABLE_NAME);
             //Add every processed row to the table
             for(int i = 0; i < allResourceTypeData.size(); i++){
                 ResourceTypeData thisEntry = allResourceTypeData.get(i);
@@ -387,7 +394,6 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
-            stmt.execute("TRUNCATE TABLE " + LANGUAGE_TABLE_NAME);
             //Add every processed row to the table
             for(int i = 0; i < allLanguageData.size(); i++){
                 LangaugeData thisEntry = allLanguageData.get(i);
@@ -395,7 +401,6 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
-            stmt.execute("TRUNCATE TABLE " + SERVING_TABLE_NAME);
             //Add every processed row to the table
             for(int i = 0; i < allServingData.size(); i++){
                 ServingData thisEntry = allServingData.get(i);
