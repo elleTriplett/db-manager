@@ -205,7 +205,12 @@ public class ResourceData {
         if (number.size() != 10){
             return false;
         }
-        this.phoneNumber = addQuotes(formatPhoneNumber(String.valueOf(number)));
+        String digitsAsString = "";
+        for (char digit: number){
+            digitsAsString += digit;
+        }
+        //this.phoneNumber = addQuotes(formatPhoneNumber(String.valueOf(number)));
+        this.phoneNumber = addQuotes(formatPhoneNumber(digitsAsString));
         return true;
     }
 
@@ -221,6 +226,7 @@ public class ResourceData {
         toReturn += digits.substring(3,6);
         toReturn += "-";
         toReturn += digits.substring(6);
+        System.out.println("Added phone number: " + toReturn);
         return toReturn;
     }
 

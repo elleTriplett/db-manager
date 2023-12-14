@@ -46,7 +46,7 @@ public class DatabaseManager {
     private static final ArrayList<String> SERVING_CATEGORY_TYPES = new ArrayList<>(Arrays.asList(
             "int", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit"));
     private static final int NUM_CATEGORIES = 15;
-    private static final String URL = "jdbc:sqlite:C:/sqlite/db/test.db";
+    private static final String URL = "jdbc:sqlite:C:/sqlite/db/resourceData.db";
 
     private ArrayList<ResourceData> allResourceData = new ArrayList<>();
     private ArrayList<CityData> allCityData = new ArrayList<>();
@@ -73,43 +73,34 @@ public class DatabaseManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-/*
-        //create database
-        try(Connection conn = DriverManager.getConnection(url); // MySQL
-            Statement stmt = conn.createStatement();
-        ) {
-            String sql = "create database if not exists " + DATABASE_NAME;
-            stmt.execute(sql);
-        } catch(SQLException ex) {
-            ex.printStackTrace();
-        }*/
+
         //create table
         try (
                 Connection conn = DriverManager.getConnection(URL); // MySQL
                 Statement stmt = conn.createStatement();
         ) {
             //TODO remove this line
-            stmt.execute("DROP TABLE " + RESOURCE_TABLE_NAME);
+            //stmt.execute("DROP TABLE " + RESOURCE_TABLE_NAME);
             String sql = makeTable(RESOURCE_TABLE_NAME, RESOURCE_CATEGORIES, RESOURCE_CATEGORY_TYPES);
             stmt.execute(sql);
 
             //TODO remove this line
-            stmt.execute("DROP TABLE " + CITY_TABLE_NAME);
+            //stmt.execute("DROP TABLE " + CITY_TABLE_NAME);
             sql = makeTable(CITY_TABLE_NAME, CITY_CATEGORIES, CITY_CATEGORY_TYPES);
             stmt.execute(sql);
 
             //TODO remove this line
-            stmt.execute("DROP TABLE " + TYPE_TABLE_NAME);
+            //stmt.execute("DROP TABLE " + TYPE_TABLE_NAME);
             sql = makeTable(TYPE_TABLE_NAME, RESOURCE_TYPE_CATEGORIES, RESOURCE_TYPE_CATEGORY_TYPES);
             stmt.execute(sql);
 
             //TODO remove this line
-            stmt.execute("DROP TABLE " + LANGUAGE_TABLE_NAME);
+            //stmt.execute("DROP TABLE " + LANGUAGE_TABLE_NAME);
             sql = makeTable(LANGUAGE_TABLE_NAME, LANGUAGE_CATEGORIES, LANGUAGE_CATEGORY_TYPES);
             stmt.execute(sql);
 
             //TODO remove this line
-            stmt.execute("DROP TABLE " + SERVING_TABLE_NAME);
+            //stmt.execute("DROP TABLE " + SERVING_TABLE_NAME);
             sql = makeTable(SERVING_TABLE_NAME, SERVING_CATEGORIES, SERVING_CATEGORY_TYPES);
             stmt.execute(sql);
 
