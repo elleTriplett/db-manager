@@ -12,8 +12,6 @@ import java.util.Scanner;
  * and how to update them
  */
 public class DatabaseManager {
-    private static final String PORT_NUMBER = "3307";
-    private static final String DATABASE_NAME = "ResourceData";
     private static final String RESOURCE_TABLE_NAME = "Resources";
     private static final String CITY_TABLE_NAME = "Cities";
     private static final String TYPE_TABLE_NAME = "Types";
@@ -358,12 +356,13 @@ public class DatabaseManager {
             return;
         }
         try (
-                Connection conn = DriverManager.getConnection(URL); // MySQL
+                Connection conn = DriverManager.getConnection(URL);
                 Statement stmt = conn.createStatement();
         ) {
-            //TODO before clearing out the table, copy it over to a backup
 
             //Clear the table so things aren't inputted twice
+            stmt.execute("DELETE FROM " + RESOURCE_TABLE_NAME);
+            stmt.execute("VACUUM");
             //Add every processed row to the table
             for(int i = 0; i < allResourceData.size(); i++){
                 ResourceData thisEntry = allResourceData.get(i);
@@ -371,6 +370,8 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
+            stmt.execute("DELETE FROM " + CITY_TABLE_NAME);
+            stmt.execute("VACUUM");
             //Add every processed row to the table
             for(int i = 0; i < allCityData.size(); i++){
                 CityData thisEntry = allCityData.get(i);
@@ -378,6 +379,8 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
+            stmt.execute("DELETE FROM " + TYPE_TABLE_NAME);
+            stmt.execute("VACUUM");
             //Add every processed row to the table
             for(int i = 0; i < allResourceTypeData.size(); i++){
                 ResourceTypeData thisEntry = allResourceTypeData.get(i);
@@ -385,6 +388,8 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
+            stmt.execute("DELETE FROM " + LANGUAGE_TABLE_NAME);
+            stmt.execute("VACUUM");
             //Add every processed row to the table
             for(int i = 0; i < allLanguageData.size(); i++){
                 LangaugeData thisEntry = allLanguageData.get(i);
@@ -392,6 +397,8 @@ public class DatabaseManager {
                 stmt.execute(sql);
             }
             //Clear the table so things aren't inputted twice
+            stmt.execute("DELETE FROM " + SERVING_TABLE_NAME);
+            stmt.execute("VACUUM");
             //Add every processed row to the table
             for(int i = 0; i < allServingData.size(); i++){
                 ServingData thisEntry = allServingData.get(i);

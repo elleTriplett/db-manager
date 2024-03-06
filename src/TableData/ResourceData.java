@@ -18,9 +18,7 @@ public class ResourceData {
     private String requirements;
     private String dateUpdated;
 
-    //TODO update char limit once we have a website prototype
     private static final int CHAR_LIMIT = 600;
-    //TODO add free/costs money?
 
     /**
      * This method returns a string of all the values for the table in the column order
@@ -226,7 +224,6 @@ public class ResourceData {
         toReturn += digits.substring(3,6);
         toReturn += "-";
         toReturn += digits.substring(6);
-        System.out.println("Added phone number: " + toReturn);
         return toReturn;
     }
 
@@ -429,7 +426,6 @@ public class ResourceData {
                 day = separatedByDash[1];
                 year = separatedByDash[2];
             }
-
         }
         if (year == null){
             return false;
