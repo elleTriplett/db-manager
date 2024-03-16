@@ -44,7 +44,7 @@ public class DatabaseManager {
     private static final ArrayList<String> SERVING_CATEGORY_TYPES = new ArrayList<>(Arrays.asList(
             "int", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit"));
     private static final int NUM_CATEGORIES = 15;
-    private static final String URL = "jdbc:sqlite:C:/sqlite/db/resourceData.db";
+    private static final String URL = "jdbc:sqlite:resourceData.db";
 
     private ArrayList<ResourceData> allResourceData = new ArrayList<>();
     private ArrayList<CityData> allCityData = new ArrayList<>();
