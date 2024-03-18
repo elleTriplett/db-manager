@@ -10,4 +10,4 @@ jobs:
           - name: run java script
             uses: jbangdev/jbang-action@v0.114.0
             with:
-              script: -jar out/artifacts/TSP_jar/TSP.jar
+              script: /out/artifacts/TSP_jar/TSP.jar
