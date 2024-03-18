@@ -65,8 +65,6 @@ public class DatabaseManager {
         try (Connection conn = DriverManager.getConnection(URL)) {
             if (conn != null){
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The Driver name is  " + meta.getDriverName());
-                System.out.println("A New Database has been created");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -77,28 +75,18 @@ public class DatabaseManager {
                 Connection conn = DriverManager.getConnection(URL); // MySQL
                 Statement stmt = conn.createStatement();
         ) {
-            //TODO remove this line
-            //stmt.execute("DROP TABLE " + RESOURCE_TABLE_NAME);
             String sql = makeTable(RESOURCE_TABLE_NAME, RESOURCE_CATEGORIES, RESOURCE_CATEGORY_TYPES);
             stmt.execute(sql);
 
-            //TODO remove this line
-            //stmt.execute("DROP TABLE " + CITY_TABLE_NAME);
             sql = makeTable(CITY_TABLE_NAME, CITY_CATEGORIES, CITY_CATEGORY_TYPES);
             stmt.execute(sql);
 
-            //TODO remove this line
-            //stmt.execute("DROP TABLE " + TYPE_TABLE_NAME);
             sql = makeTable(TYPE_TABLE_NAME, RESOURCE_TYPE_CATEGORIES, RESOURCE_TYPE_CATEGORY_TYPES);
             stmt.execute(sql);
 
-            //TODO remove this line
-            //stmt.execute("DROP TABLE " + LANGUAGE_TABLE_NAME);
             sql = makeTable(LANGUAGE_TABLE_NAME, LANGUAGE_CATEGORIES, LANGUAGE_CATEGORY_TYPES);
             stmt.execute(sql);
 
-            //TODO remove this line
-            //stmt.execute("DROP TABLE " + SERVING_TABLE_NAME);
             sql = makeTable(SERVING_TABLE_NAME, SERVING_CATEGORIES, SERVING_CATEGORY_TYPES);
             stmt.execute(sql);
 
@@ -133,10 +121,9 @@ public class DatabaseManager {
      * they are ready to be inputted into the tables
      */
     public void readResourceFile(){
-        //TODO allow for uploading file, not having it in
         System.out.println("Reading " + RESOURCE_FILE);
         int numFailed = 0;
-        int numTried = 0;
+        int numTried = 1;
         boolean success;
         try {
             Scanner in = new Scanner(new FileInputStream(RESOURCE_FILE + ".csv"));
@@ -147,7 +134,7 @@ public class DatabaseManager {
                     continue;
                 }
                 //This is the first row, so check that there are the right number of columns
-                if (numTried == 0){
+                if (numTried == 1){
                     if (!checkColumns(dataRow)) {
                         break;
                     }
@@ -161,10 +148,9 @@ public class DatabaseManager {
                     }
                 }
             }
-            System.out.println(String.format("Successfully processed %o out of %o rows", (numTried-numFailed-1), (numTried-1)));
+            System.out.println(String.format("Successfully processed %s out of %s rows", (numTried-numFailed-1), (numTried-1)));
         } // catches the file not found exception-shouldn't be one because the file is submitted
         catch (FileNotFoundException e) {
-            //TODO figure out how to give user logs, not directly printing?
             System.out.println("Please move a default file into project");
         }
     }
@@ -205,77 +191,77 @@ public class DatabaseManager {
         }
         //Process the resource name
         if(!rowResourceData.setResourceName(cleanData.get(0))){
-            System.out.println(String.format("There was an error with the formatting of the resource name %s in row %o", cleanData.get(0), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the resource name %s in row %s", cleanData.get(0), rowNum));
             return false;
         }
         //Process the organization name
         if(!rowResourceData.setOrganization(cleanData.get(1))){
-            System.out.println(String.format("There was an error with the formatting of the organization name %s in row %o", cleanData.get(1), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the organization name %s in row %s", cleanData.get(1), rowNum));
             return false;
         }
         //Process the description
         if(!rowResourceData.setDescription(cleanData.get(2))){
-            System.out.println(String.format("There was an error with the formatting of the description %s in row %o", cleanData.get(2), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the description %s in row %s", cleanData.get(2), rowNum));
             return false;
         }
         //Process the phone number
         if(!rowResourceData.setPhoneNumber(cleanData.get(3))){
-            System.out.println(String.format("There was an error with the formatting of the phone number %s in row %o", cleanData.get(3), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the phone number %s in row %s", cleanData.get(3), rowNum));
             return false;
         }
         //Process the website
         if(!rowResourceData.setWebsite(cleanData.get(4))){
-            System.out.println(String.format("There was an error with the formatting of the website %s in row %o", cleanData.get(4), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the website %s in row %s", cleanData.get(4), rowNum));
             return false;
         }
         //Process the city
         if(!rowCityData.validate(Integer.toString(rowKey), cleanData.get(5))){
-            System.out.println(String.format("There was an error with the formatting of the city %s in row %o", cleanData.get(5), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the city %s in row %s", cleanData.get(5), rowNum));
             return false;
         }
         //Process the address
         if(!rowResourceData.setAddress(cleanData.get(6))){
-            System.out.println(String.format("There was an error with the formatting of the address %s in row %o", cleanData.get(6), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the address %s in row %s", cleanData.get(6), rowNum));
             return false;
         }
         //Process the hours
         if(!rowResourceData.setHours(cleanData.get(7))){
-            System.out.println(String.format("There was an error with the formatting of the hours %s in row %o", cleanData.get(7), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the hours %s in row %s", cleanData.get(7), rowNum));
             return false;
         }
         //Process the resource type
         if(!rowResourceTypeData.validate(Integer.toString(rowKey), cleanData.get(8))){
-            System.out.println(String.format("There was an error with the formatting of the resource type(s) %s in row %o", cleanData.get(8), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the resource type(s) %s in row %s", cleanData.get(8), rowNum));
             return false;
         }
         //Process the language type
         if(!rowLanguageData.validate(Integer.toString(rowKey), cleanData.get(9))){
-            System.out.println(String.format("There was an error with the formatting of the language(s) %s in row %o", cleanData.get(9), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the language(s) %s in row %s", cleanData.get(9), rowNum));
             return false;
         }
         //Process offers transportation
         if(!rowResourceData.setOffersTransportation(cleanData.get(10))){
-            System.out.println(String.format("There was an error with the formatting of offers transportation %s in row %o", cleanData.get(10), rowNum));
+            System.out.println(String.format("There was an error with the formatting of offers transportation %s in row %s", cleanData.get(10), rowNum));
             return false;
         }
         //Process serving
         if(!rowServingData.validate(Integer.toString(rowKey), cleanData.get(11))){
-            System.out.println(String.format("There was an error with the formatting of serving %s in row %o", cleanData.get(11), rowNum));
+            System.out.println(String.format("There was an error with the formatting of serving %s in row %s", cleanData.get(11), rowNum));
             return false;
         }
         //Process has requirements
         if(!rowResourceData.setHasRequirements(cleanData.get(12))){
-            System.out.println(String.format("There was an error with the formatting of has requirements %s in row %o", cleanData.get(12), rowNum));
+            System.out.println(String.format("There was an error with the formatting of has requirements %s in row %s", cleanData.get(12), rowNum));
             return false;
         }
         //Process the requirements
         if(!rowResourceData.setRequirements(cleanData.get(13))){
-            System.out.println(String.format("There was an error with the formatting of the requirements %s in row %o", cleanData.get(13), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the requirements %s in row %s", cleanData.get(13), rowNum));
             return false;
         }
         //Process the date
         if(!rowResourceData.setDateUpdated(cleanData.get(14))){
-            System.out.println(String.format("There was an error with the formatting of the date updated %s in row %o", cleanData.get(14), rowNum));
+            System.out.println(String.format("There was an error with the formatting of the date updated %s in row %s", cleanData.get(14), rowNum));
             return false;
         }
         allResourceData.add(rowResourceData);
