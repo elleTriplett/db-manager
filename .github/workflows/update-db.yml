@@ -8,6 +8,6 @@ jobs:
           - name: checkout
             uses: actions/checkout@v1
           - name: run java script
-            uses: jbangdev/jbang-action@v0.114.0
+            uses: jbangdev/jbang-action@v0.115.0
             with:
               script: out/artifacts/TSP_jar/TSP.jar
