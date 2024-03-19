@@ -1,0 +1,13 @@
+name: update-db
+run-name: ${{ github.actor }} is updating the database
+on: [push]
+jobs:
+    process-csv:
+        runs-on: ubuntu-latest
+        steps:
+          - name: checkout
+            uses: actions/checkout@v1
+          - name: run java script
+            uses: jbangdev/jbang-action@v0.115.0
+            with:
+              script: out/artifacts/TSP_jar/TSP.jar
