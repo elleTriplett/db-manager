@@ -40,9 +40,9 @@ public class DatabaseManager {
             "int", "bit", "bit", "bit"));
     private static final ArrayList<String> SERVING_CATEGORIES = new ArrayList<>(Arrays.asList(
             PRIMARY_KEY, "deaf", "disabilities", "employed", "everyone", "hivPositive", "military",
-            "queer", "seniors", "veterans", "youth"));
+            "queer", "seniors", "veterans", "women", "youth"));
     private static final ArrayList<String> SERVING_CATEGORY_TYPES = new ArrayList<>(Arrays.asList(
-            "int", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit"));
+            "int", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit", "bit"));
     private static final int NUM_CATEGORIES = 15;
     private static final String URL = "jdbc:sqlite:resourceData.db";
 
@@ -75,18 +75,30 @@ public class DatabaseManager {
                 Connection conn = DriverManager.getConnection(URL); // MySQL
                 Statement stmt = conn.createStatement();
         ) {
-            String sql = makeTable(RESOURCE_TABLE_NAME, RESOURCE_CATEGORIES, RESOURCE_CATEGORY_TYPES);
+            //Drop the table before creating it in case it has been changed
+            String sql = "DROP TABLE IF EXISTS " + RESOURCE_TABLE_NAME + " ;";
             stmt.execute(sql);
 
+            sql= makeTable(RESOURCE_TABLE_NAME, RESOURCE_CATEGORIES, RESOURCE_CATEGORY_TYPES);
+            stmt.execute(sql);
+
+            sql = "DROP TABLE IF EXISTS " + CITY_TABLE_NAME + " ;";
+            stmt.execute(sql);
             sql = makeTable(CITY_TABLE_NAME, CITY_CATEGORIES, CITY_CATEGORY_TYPES);
             stmt.execute(sql);
 
+            sql = "DROP TABLE IF EXISTS " + TYPE_TABLE_NAME + " ;";
+            stmt.execute(sql);
             sql = makeTable(TYPE_TABLE_NAME, RESOURCE_TYPE_CATEGORIES, RESOURCE_TYPE_CATEGORY_TYPES);
             stmt.execute(sql);
 
+            sql = "DROP TABLE IF EXISTS " + LANGUAGE_TABLE_NAME + " ;";
+            stmt.execute(sql);
             sql = makeTable(LANGUAGE_TABLE_NAME, LANGUAGE_CATEGORIES, LANGUAGE_CATEGORY_TYPES);
             stmt.execute(sql);
 
+            sql = "DROP TABLE IF EXISTS " + SERVING_TABLE_NAME + " ;";
+            stmt.execute(sql);
             sql = makeTable(SERVING_TABLE_NAME, SERVING_CATEGORIES, SERVING_CATEGORY_TYPES);
             stmt.execute(sql);
 
@@ -350,6 +362,7 @@ public class DatabaseManager {
             stmt.execute("DELETE FROM " + RESOURCE_TABLE_NAME);
             stmt.execute("VACUUM");
             //Add every processed row to the table
+
             for(int i = 0; i < allResourceData.size(); i++){
                 ResourceData thisEntry = allResourceData.get(i);
                 String sql = "insert into " + RESOURCE_TABLE_NAME + " values (" + thisEntry.allValues() + ")";

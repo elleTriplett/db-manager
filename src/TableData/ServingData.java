@@ -13,6 +13,7 @@ public class ServingData {
     private String queer = null;
     private String seniors = null;
     private String veterans = null;
+    private String women = null;
     private String youth = null;
 
     /**
@@ -30,6 +31,7 @@ public class ServingData {
         toReturn += ", " + this.queer;
         toReturn += ", " + this.seniors;
         toReturn += ", " + this.veterans;
+        toReturn += ", " + this.women;
         toReturn += ", " + this.youth;
         return toReturn;
     }
@@ -93,6 +95,9 @@ public class ServingData {
                 numTrue++;
             } else if (category.equalsIgnoreCase("veterans")) {
                 this.veterans = "true";
+                numTrue++;
+            } else if (category.equalsIgnoreCase("women")){
+                this.women = "true";
                 numTrue++;
             } else if (category.equalsIgnoreCase("youth")){
                 this.youth = "true";
