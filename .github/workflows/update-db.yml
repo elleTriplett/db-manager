@@ -12,7 +12,8 @@ jobs:
             with:
               script: .github/workflows/TSP.jar
           - name: commit files
-            run: git status 
+            run: |
+                 git status 
                  git add resourceData.db
                  git commit -m "Saving updated database"
           - name: push changes
