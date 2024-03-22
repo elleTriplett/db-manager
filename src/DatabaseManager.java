@@ -404,6 +404,7 @@ public class DatabaseManager {
                 String sql = "insert into " + SERVING_TABLE_NAME + " values (" + thisEntry.allValues() + ")";
                 stmt.execute(sql);
             }
+            System.out.println("Successfully updated database at  " + URL);
         }
         catch(SQLException ex) {
             ex.printStackTrace();
