@@ -174,7 +174,7 @@ public class DatabaseManager {
      * @return true if the row was successfully processed, false if the row was malformed and cannot be processed
      */
     public boolean processRow(String dataRow, int rowNum){
-        ArrayList<String> cleanData = separateRow(dataRow);
+        ArrayList<String> cleanData = sanitizeRow(dataRow);
         //If there are empty cells, this ensures that they get filled with nulls
         if (cleanData.size() < NUM_CATEGORIES){
             while (cleanData.size() != NUM_CATEGORIES){
@@ -290,7 +290,7 @@ public class DatabaseManager {
      * @return true if there are the correct number of columns, false if there are not
      */
     private boolean checkColumns(String columns){
-        ArrayList<String> cleanColumns = separateRow(columns);
+        ArrayList<String> cleanColumns = sanitizeRow(columns);
         if (cleanColumns.size() != NUM_CATEGORIES){
             System.out.println(NUM_CATEGORIES);
             System.out.println("Spreadsheet has the wrong number of columns. Please ensure that you have the right " +
@@ -344,6 +344,21 @@ public class DatabaseManager {
         return cleanedData;
     }
 
+    /**
+     * This method sanitizes a row, making sure that commas and apostrophes will not break the sql syntax
+     * @param dataRow the string representation of a single csv row
+     * @return an arraylist of the sanitized strings from each cell
+     */
+    private ArrayList<String> sanitizeRow (String dataRow){
+        ArrayList<String> separatedRow = separateRow(dataRow);
+        for (String cell : separatedRow){
+            if (cell != null && cell.contains("'")){
+                cell.replace("'", "`");
+                System.out.println("We're going to have a problem");
+            }
+        }
+        return separatedRow;
+    }
     /**
      * This method updates all the tables with the data that has been processed from the csv file
      */
@@ -404,7 +419,6 @@ public class DatabaseManager {
                 String sql = "insert into " + SERVING_TABLE_NAME + " values (" + thisEntry.allValues() + ")";
                 stmt.execute(sql);
             }
-            System.out.println("Successfully updated database at  " + URL);
         }
         catch(SQLException ex) {
             ex.printStackTrace();
