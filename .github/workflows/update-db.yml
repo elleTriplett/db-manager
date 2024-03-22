@@ -13,7 +13,8 @@ jobs:
               script: .github/workflows/TSP.jar
           - name: commit files
             run: |
-                 git status 
+                 git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                 git config --local user.name "github-actions[bot]"
                  git add resourceData.db
                  git commit -m "Saving updated database"
           - name: push changes
