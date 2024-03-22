@@ -11,3 +11,7 @@ jobs:
             uses: jbangdev/jbang-action@v0.115.0
             with:
               script: .github/workflows/TSP.jar
+          - name: commit files
+            run: git status  
+          
+        
